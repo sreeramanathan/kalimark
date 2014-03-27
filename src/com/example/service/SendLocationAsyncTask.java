@@ -17,7 +17,7 @@ public class SendLocationAsyncTask extends AsyncTask{
     @Override
     protected Object doInBackground(Object... params) {
         HttpClient httpClient = new DefaultHttpClient();
-        HttpPost httpPost = new HttpPost("http://10.16.3.59:3000/gps_tracker");
+        HttpPost httpPost = new HttpPost("http://kalimark.herokuapp.com/gps_tracker");
         Location location = (Location) params[0];
         String imei = (String) params[1];
         try {
@@ -25,7 +25,6 @@ public class SendLocationAsyncTask extends AsyncTask{
         nameValuePairs.add(new BasicNameValuePair("imei", "359656040521169"));
         nameValuePairs.add(new BasicNameValuePair("latitude", location.getLatitude()+""));
         nameValuePairs.add(new BasicNameValuePair("longitude", location.getLongitude()+""));
-        System.out.println("Latitude: " + location.getLatitude() + " Longitude: " + location.getLongitude());
         httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
         httpClient.execute(httpPost);
