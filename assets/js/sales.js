@@ -1,7 +1,9 @@
-var home = {
+var sales = {
     init:function () {
-        var onSubmit = function (e) {
+        var onSubmit = function () {
             $("#submit").unbind('click');
+
+            var itemSales = [];
 
             var yesterday = 0;
             $('.yesterday').each(function () {
@@ -14,10 +16,12 @@ var home = {
             var sale = 0;
             $('input[name="sale"]').each(function (e) {
                 sale += inputValue($(this));
+                itemSales.push(inputValue($(this)))
             });
             var addition = 0;
-            $('input[name="addition"]').each(function () {
+            $('input[name="addition"]').each(function (index) {
                 addition += inputValue($(this));
+                itemSales[index] += inputValue($(this));
             });
             var price = 0;
             $('.price').each(function () {
@@ -29,13 +33,7 @@ var home = {
                 type:'POST',
                 data:{name:'Saravana Stores', tomorrow:tomorrow, issue:sale, addition:addition, price:price, yesterday:yesterday},
                 success:function () {
-                    $('input').each(function () {
-                        $(this).val("");
-                    });
-                    $('.price').each(function () {
-                        $(this).html("");
-                    });
-                    $('#submit').click(onSubmit);
+                    htmlFromTemplate('summary.html', function(){summary.init(itemSales);})
                 },
                 error:function () {
                     alert('Server communication error!');

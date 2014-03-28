@@ -1,5 +1,6 @@
+var balance = [108, 72, 96, 60, 84, 48, 72, 84];
 $(function () {
-    htmlFromTemplate('home.html', function(){home.init();});
+    htmlFromTemplate('summary.html', function(){summary.init();});
 });
 function goBack() {
 
