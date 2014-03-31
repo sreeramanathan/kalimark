@@ -1,7 +1,10 @@
-.rate,.yesterday,.price {
+.rate,.yesterday,.price,.balance {
     text-align: center
 }
 table {
     margin-left: auto;
     margin-right: auto;
+}
+td img {
+    height: 40% !important;
 }
