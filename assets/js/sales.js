@@ -1,32 +1,14 @@
 var sales = {
     init:function () {
+        var yesterday;
+        var tomorrow;
+        var sale;
+        var addition;
+        var price;
+        var itemSales = [];
+
         var onSubmit = function () {
             $("#submit").unbind('click');
-
-            var itemSales = [];
-
-            var yesterday = 0;
-            $('.yesterday').each(function () {
-                yesterday += inputText($(this));
-            });
-            var tomorrow = 0;
-            $('input[name="tomorrow"]').each(function () {
-                tomorrow += inputValue($(this));
-            });
-            var sale = 0;
-            $('input[name="sale"]').each(function (e) {
-                sale += inputValue($(this));
-                itemSales.push(inputValue($(this)))
-            });
-            var addition = 0;
-            $('input[name="addition"]').each(function (index) {
-                addition += inputValue($(this));
-                itemSales[index] += inputValue($(this));
-            });
-            var price = 0;
-            $('.price').each(function () {
-                price += inputText($(this));
-            });
 
             $.ajax({
                 url:'http://kalimark.herokuapp.com/shop',
@@ -51,17 +33,45 @@ var sales = {
             return parseInt(text == "" ? 0 : text);
         }
 
-        var recomputePrice = function (elem) {
+        var recomputePriceAndTotals = function (elem) {
             var item = elem.parent().parent();
             var price = inputValue(item.find('input[name="sale"]')) * inputText(item.find('.rate')) + inputValue(item.find('input[name="addition"]')) * 10;
             item.find('.price').html(price);
+
+            yesterday = 0;
+            tomorrow = 0;
+            sale = 0;
+            addition = 0;
+            price = 0;
+            $('.yesterday').each(function () {
+                yesterday += inputText($(this));
+            });
+            $('input[name="tomorrow"]').each(function () {
+                tomorrow += inputValue($(this));
+            });
+            $('input[name="sale"]').each(function (e) {
+                sale += inputValue($(this));
+                itemSales.push(inputValue($(this)))
+            });
+            $('input[name="addition"]').each(function (index) {
+                addition += inputValue($(this));
+                itemSales[index] += inputValue($(this));
+            });
+            $('.price').each(function () {
+                price += inputText($(this));
+            });
+
+            $($('.total').find('td')[2]).html(sale);
+            $($('.total').find('td')[3]).html(addition);
+            $($('.total').find('td')[4]).html(tomorrow);
+            $($('.total').find('td')[5]).html(price);
         };
 
         $('#submit').click(onSubmit);
         $('input').each(function () {
             var self = this;
             $(self).blur(function () {
-                recomputePrice($(self));
+                recomputePriceAndTotals($(self));
             });
         });
     }

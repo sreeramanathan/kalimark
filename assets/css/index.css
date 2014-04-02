@@ -8,3 +8,6 @@ table {
 td img {
     height: 30% !important;
 }
+.total td:not(:first-child) {
+    text-align: center;
+}
